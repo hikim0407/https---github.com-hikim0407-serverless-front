@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import Review from "../components/Review";
+import Form from "../components/Form";
 import styles from "./Home.module.css";
 import add from "../add.png";
 
 function Home() {
     const [loading, setLoading] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const [reviews, setReviews] = useState([]);
     const getReviews = async() => {
       const raw = await (
@@ -24,6 +26,10 @@ function Home() {
       setReviews(json);
       setLoading(false);
     }
+
+    const openPopup = () => {
+        setIsOpen(true);
+    };
     
     useEffect(() => {
         getReviews();
@@ -49,10 +55,13 @@ function Home() {
                     />)
                 )}
                 <span className={styles.go__home}>
-                    <img src={add}></img>  
+                    <img className={styles.add} src={add} onClick={openPopup}></img>  
                 </span>
             </div>
             )}
+            {isOpen ? (
+                <Form/>
+            ) : ""}
         </div>
     );
 }
